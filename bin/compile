@@ -62,28 +62,31 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.16.2"}
 
-if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.16.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="a412fd69db1f81db3f511c1463fd304675244077"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.15.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
-  minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="d0d0fe2b1dc6ab4c65554cb734270872b72dadd6"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-else
-  minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
-fi
+#if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
+  #minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
+  #minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+#elif echo "$minecraft_version" | grep -q '^1\.16.*$'; then
+  #minecraft_uuid="${MINECRAFT_UUID:="a412fd69db1f81db3f511c1463fd304675244077"}"
+  #minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+#elif echo "$minecraft_version" | grep -q '^1\.15.*$'; then
+  #minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
+  #minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+#elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
+  #minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
+  #minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
+#elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
+  #minecraft_uuid="${MINECRAFT_UUID:="d0d0fe2b1dc6ab4c65554cb734270872b72dadd6"}"
+  #minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+#else
+  #minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
+#fi
+
+minecraft_url = https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/251/downloads/paper-1.17.1-251.jar
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
-mv minecraft.jar $BUILD_DIR/minecraft.jar
+#mv minecraft.jar $BUILD_DIR/minecraft.jar
+mv paper-1.17.1-251.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
