@@ -85,8 +85,7 @@ minecraft_url = https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
-#mv minecraft.jar $BUILD_DIR/minecraft.jar
-mv paper-1.17.1-251.jar $BUILD_DIR/minecraft.jar
+mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
