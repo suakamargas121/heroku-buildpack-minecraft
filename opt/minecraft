@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 #mc_port=25566
-mc_port=80
+#mc_port=80
 port=${1:-${PORT:-8080}}
+mc_port=${port}
 
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
