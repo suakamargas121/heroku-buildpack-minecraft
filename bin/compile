@@ -82,7 +82,8 @@ minecraft_version=${MINECRAFT_VERSION:-"1.16.2"}
 #fi
 
 #minecraft_url="https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/251/downloads/paper-1.17.1-251.jar"
-minecraft_url="https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/788/downloads/paper-1.16.5-788.jar"
+#minecraft_url="https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/788/downloads/paper-1.16.5-788.jar"
+minecraft_url="https://papermc.io/api/v1/paper/$minecraft_version/latest/download"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
