@@ -82,11 +82,11 @@ minecraft_version=${MINECRAFT_VERSION:-"1.16.5"}
 #fi
 
 # SPIGOT SERVER
-#minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
 
 # PAPER SERVER
 # Paper only works up to 1.16.5, and uses more memory compared to other Minecraft Servers. Not recommended, for now.
-minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
+#minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
