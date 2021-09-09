@@ -60,7 +60,15 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.16.5"}
+minecraft_version=${MINECRAFT_VERSION:-"1.17.1"}
+
+# SPIGOT SERVER
+# Spigot works as of 1.17.1! Recommended
+minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+
+# PAPER SERVER
+# Paper only works up to 1.16.5, and uses more memory compared to the other Minecraft Servers. Requires Server View Distance of 6 or Below. Not recommended, for now.
+#minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
 
 #if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
   #minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
@@ -80,13 +88,6 @@ minecraft_version=${MINECRAFT_VERSION:-"1.16.5"}
 #else
   #minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 #fi
-
-# SPIGOT SERVER
-minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
-
-# PAPER SERVER
-# Paper only works up to 1.16.5, and uses more memory compared to other Minecraft Servers. Not recommended, for now.
-#minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url

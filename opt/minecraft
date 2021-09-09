@@ -45,7 +45,8 @@ case $limit in
   *)     # 1X Dyno
   # Safe = 384m
   # Extreme = 448m
-  heap=${MEMORY:-"384m"}
+  #heap=${MEMORY:-"384m"}
+  heap=${MEMORY:-"448m"}
   #heap="512m"
   #heap="394m"
   ;;
