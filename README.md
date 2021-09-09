@@ -10,7 +10,3 @@ for running a Minecraft Server in a [dyno](https://devcenter.heroku.com/articles
 This Buildpack is only one part of the Heroku Minecraft Server
 
 For Full Setup instructions, see the [Main Repository](https://github.com/Epicfisher/heroku-minecraft-server)
-
-## Installation
-
-If you want to Install the Buildpack only,  add ```https://github.com/Epicfisher/heroku-buildpack-minecraft``` to your App's list of Buildpacks
