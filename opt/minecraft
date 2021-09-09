@@ -3,8 +3,8 @@
 mc_port=25566
 #mc_port=80
 
-#webport=${1:-${PORT:-8080}}
-webport=${PORT}
+webport=${1:-${PORT:-8080}}
+#webport=${PORT}
 
 #mc_port=${webport}
 
