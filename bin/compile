@@ -81,8 +81,8 @@ minecraft_version=${MINECRAFT_VERSION:-"1.16.5"}
   #minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 #fi
 
-#minecraft_url="https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/251/downloads/paper-1.17.1-251.jar"
-#minecraft_url="https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/788/downloads/paper-1.16.5-788.jar"
+# PAPER SERVER
+# Paper only works up to 1.16.5, and uses more memory compared to other Minecraft Servers. Not recommended, for now.
 minecraft_url="https://papermc.io/api/v1/paper/$minecraft_version/latest/download"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
