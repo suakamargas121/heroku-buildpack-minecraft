@@ -62,6 +62,7 @@ echo "done"
 
 # Minecraft Version to Run
 minecraft_version=${MINECRAFT_VERSION:-"latest"}
+minecraft_uuid="Unknown UUID"
 server=${SERVER:-"paper"}
 server=`echo $server | tr '[:upper:]' '[:lower:]'`
 
@@ -119,10 +120,10 @@ fi
 unset temp
 echo "done"
 
-echo -n "-----> Downloading Minecraft ${server} ${minecraft_version}... "
+echo -n "-----> Downloading Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
 curl -o minecraft.jar -s -L $minecraft_url
 echo "done"
-echo -n "-----> Installing Minecraft ${server} ${minecraft_version}... "
+echo -n "-----> Installing Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
