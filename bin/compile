@@ -70,8 +70,11 @@ echo -n "-----> Searching for Minecraft ${server} ${minecraft_version}... "
 # PURPUR SERVER
 if [ "$server" = "purpur" ]; then
 	if [ "$minecraft_version" = "latest" ]; then
-		echo "Latest JAR Downloader Not Implemented for Purpur Server"
-		exit 1
+		temp=$(wget -qO- https://api.pl3x.net/v2/purpur/)
+		minecraft_version=`echo $temp | cut -d ',' -f 2 | cut -d '"' -f 4`
+		temp=$(wget -qO- https://api.pl3x.net/v2/purpur/${minecraft_version}/)
+		minecraft_uuid=`echo $temp | cut -d ',' -f 4 | cut -d '"' -f 4`
+		minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/${minecraft_uuid}/download"
 	else
 		minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
 	fi
