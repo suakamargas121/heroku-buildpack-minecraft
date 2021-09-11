@@ -63,7 +63,7 @@ echo "done"
 # Minecraft Version to Run
 minecraft_version=${MINECRAFT_VERSION:-"latest"}
 minecraft_uuid="Unknown UUID"
-server=${SERVER:-"paper"}
+server=${SERVER:-"purpur"}
 server=`echo $server | tr '[:upper:]' '[:lower:]'`
 
 echo -n "-----> Searching for Minecraft ${server} ${minecraft_version}... "
