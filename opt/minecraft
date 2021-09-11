@@ -43,10 +43,12 @@ case $limit in
   heap="4g"
   ;;
   *)     # 1X Dyno
-  # Safe = 384m
-  # Extreme = 448m
+  # Setting 1 = 384m
+  # Setting 2 = 448m
+  # Setting 3 = 512m
   #heap=${MEMORY:-"384m"}
-  heap=${MEMORY:-"448m"}
+  #heap=${MEMORY:-"448m"}
+  heap=${MEMORY:-"512m"}
   #heap="512m"
   #heap="394m"
   ;;
