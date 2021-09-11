@@ -62,9 +62,12 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.17.1"}
 
+# TUINITY SERVER
+minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-1.17/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+
 # SPIGOT SERVER
 # Spigot works as of 1.17.1! Recommended
-minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+#minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
 
 # PAPER SERVER
 # Paper only works up to 1.16.5, and uses more memory compared to the other Minecraft Servers. Requires Server View Distance of 6 or Below. Not recommended, for now.
