@@ -30,7 +30,7 @@ OAUTH_APP_SECRET=${DROPBOX_APP_SECRET}
 OAUTH_REFRESH_TOKEN=${DROPBOX_ACCESS_TOKEN}
 EOF
   if [ -d world ]; then
-    tar -czvf backup.tar.gz world world_nether world_the_end
+    tar -czvf backup.tar.gz world world_nether world_the_end plugins
     bin/dropbox_uploader.sh upload backup.tar.gz /
     rm backup.tar.gz
   else
