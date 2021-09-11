@@ -71,6 +71,7 @@ if [${server} = "purpur"]; then
 		exit 1
 	else
 		minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
+	fi
 fi
 
 # TUINITY SERVER
@@ -84,6 +85,7 @@ if [${server} = "spigot"]; then
 		exit 1
 	else
 		minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+	fi
 fi
 
 # PAPER SERVER
@@ -97,6 +99,7 @@ if [${server} = "paper"]; then
 		minecraft_url="https://papermc.io/api/v2/projects/paper/versions/${minecraft_version}/builds/${minecraft_uuid}/downloads/paper-${minecraft_version}-{minecraft_uuid}.jar"
 	else
 		minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
+	fi
 fi
 
 #if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
