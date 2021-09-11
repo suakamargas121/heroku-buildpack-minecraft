@@ -38,6 +38,15 @@ apt-get $APT_OPTIONS update -y | indent
 apt-get $APT_OPTIONS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall screen | indent
 mkdir -p $BUILD_DIR/.apt/var/run/screen
 
+#echo "-----> Installing s3cmd... "
+#apt-get $APT_OPTIONS update | indent
+#apt-get $APT_OPTIONS -y --allow -d install --reinstall s3cmd | indent
+
+echo -n "-----> Installing Dropbox... "
+curl --silent -o dropbox_uploader.sh -L "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh" | indent
+mv dropbox_uploader.sh $BUILD_DIR/bin
+echo "done"
+
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export PATH="\$HOME/.apt/usr/bin:\$PATH"
@@ -69,7 +78,7 @@ server=`echo $server | tr '[:upper:]' '[:lower:]'`
 echo -n "-----> Searching for Minecraft ${server} ${minecraft_version}... "
 
 # PURPUR SERVER
-# Paper works as of 1.17.1 with 500m Memory
+# Purpur works as of 1.17.1 with 500m Memory
 if [ "$server" = "purpur" ]; then
 	if [ "$minecraft_version" = "latest" ]; then
 		temp=$(wget -qO- https://api.pl3x.net/v2/purpur/)
@@ -83,10 +92,12 @@ if [ "$server" = "purpur" ]; then
 fi
 
 # TUINITY SERVER
-# Paper works as of 1.17.1 with 500m Memory
+# Tuinity works as of 1.17.1 with 500m Memory
 if [ "$server" = "tuinity" ]; then
 	if [ "$minecraft_version" = "latest" ]; then
-		minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+		#minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+		echo "Latest JAR Downloader Not Implemented for Tuinity Server"
+		exit 1
 	else
 		minecraft_version=`echo $minecraft_version | rev | cut -d '.' -f 2-3 | rev`
 		minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-${minecraft_version}/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"

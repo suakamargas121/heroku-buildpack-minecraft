@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Syncing..."
+
+# Amazon S3 Sync
 if [ -n "$AWS_BUCKET" ]; then
   cat << EOF > .s3cfg
 [default]
@@ -15,4 +18,26 @@ EOF
     cd ..
   fi
   rm .s3cfg
+fi
+
+# Dropbox Sync
+if [ -n "$DROPBOX_ACCESS_TOKEN" ]; then
+  cat << EOF > .dropbox_uploader
+CONFIGFILE_VERSION=2.0
+OAUTH_APP_KEY=${DROPBOX_APP_KEY}
+OAUTH_APP_SECRET=${DROPBOX_APP_SECRET}
+OAUTH_REFRESH_TOKEN=${DROPBOX_ACCESS_TOKEN}
+EOF
+  if [ -d world ]; then
+    tar -czvf backup.tar.gz world world_nether world_the_end
+    bin/dropbox_uploader.sh upload backup.tar.gz /
+    rm backup.tar.gz
+  else
+    if bin/dropbox_uploader.sh download /backup.tar.gz
+    then
+      tar -xzvf backup.tar.gz
+      rm backup.tar.gz
+    fi
+  fi
+  rm .dropbox_uploader
 fi
