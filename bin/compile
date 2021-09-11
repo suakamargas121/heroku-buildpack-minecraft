@@ -62,8 +62,11 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.17.1"}
 
+# PURPUR SERVER
+minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
+
 # TUINITY SERVER
-minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-1.17/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+#minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-1.17/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
 
 # SPIGOT SERVER
 # Spigot works as of 1.17.1! Recommended
