@@ -60,21 +60,45 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.17.1"}
+# Minecraft Version to Run
+minecraft_version=${MINECRAFT_VERSION:-"latest"}
+server=${SERVER:-"paper"}
+server=echo ${server} | tr '[:upper:]' '[:lower:]'
 
 # PURPUR SERVER
-minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
+if [${server} = "purpur"]; then
+	if [${minecraft_version} = "latest"]; then
+		echo "Latest JAR Downloader Not Implemented for Purpur Server"
+		exit 1
+	else
+		minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
+fi
 
 # TUINITY SERVER
 #minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-1.17/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
 
 # SPIGOT SERVER
 # Spigot works as of 1.17.1! Recommended
-#minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+if [${server} = "spigot"]; then
+	if [${minecraft_version} = "latest"]; then
+		echo "Latest JAR Downloader Not Implemented for Spigot Server"
+		exit 1
+	else
+		minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+fi
 
 # PAPER SERVER
 # Paper only works up to 1.16.5, and uses more memory compared to the other Minecraft Servers. Requires Server View Distance of 6 or Below. Not recommended, for now.
-#minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
+if [${server} = "paper"]; then
+	if [${minecraft_version} = "latest"]; then
+		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/)
+		minecraft_version=echo '${temp}' | rev | cut -d ',' -f 1 | rev | cut -d '"' -f 2 | sed -n '2p'
+		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/versions/${minecraft_version})
+		minecraft_uuid=echo '${temp}' | rev | cut -d ',' -f 1 | rev | cut -d ']' -f 1
+		minecraft_url="https://papermc.io/api/v2/projects/paper/versions/${minecraft_version}/builds/${minecraft_uuid}/downloads/paper-${minecraft_version}-{minecraft_uuid}.jar"
+	else
+		minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
+fi
 
 #if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
   #minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
@@ -94,6 +118,8 @@ minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/downlo
 #else
   #minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 #fi
+
+unset temp
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
