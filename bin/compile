@@ -62,8 +62,7 @@ echo "done"
 
 # Minecraft Version to Run
 minecraft_version=${MINECRAFT_VERSION:-"latest"}
-server=${SERVER:-"paper"}
-server=echo ${server} | tr '[:upper:]' '[:lower:]'
+server=${SERVER:-"paper"} | tr '[:upper:]' '[:lower:]'
 
 # PURPUR SERVER
 if [${server} = "purpur"]; then
