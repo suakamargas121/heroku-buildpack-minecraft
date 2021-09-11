@@ -18,6 +18,7 @@ EOF
     cd ..
   fi
   rm .s3cfg
+  screen -S minecraft -p 0 -X stuff "say §a World Saved^M"
 fi
 
 # Dropbox Sync
@@ -40,4 +41,5 @@ EOF
     fi
   fi
   rm .dropbox_uploader
+  screen -S minecraft -p 0 -X stuff "say §a World Saved^M"
 fi
