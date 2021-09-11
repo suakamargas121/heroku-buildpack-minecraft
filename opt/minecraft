@@ -48,7 +48,7 @@ case $limit in
   # Setting 3 = 512m
   #heap=${MEMORY:-"384m"}
   #heap=${MEMORY:-"448m"}
-  heap=${MEMORY:-"512m"}
+  heap=${MEMORY:-"500m"}
   #heap="512m"
   #heap="394m"
   ;;
