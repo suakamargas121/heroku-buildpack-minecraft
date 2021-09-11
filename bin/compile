@@ -94,10 +94,10 @@ fi
 if [ "$server" = "paper" ]; then
 	if [ "$minecraft_version" = "latest" ]; then
 		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/)
-		minecraft_version=echo '${temp}' | rev | cut -d ',' -f 1 | rev | cut -d '"' -f 2 | sed -n '2p'
+		minecraft_version=`echo $temp | rev | cut -d ',' -f 1 | rev | cut -d '"' -f 2`
 		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/versions/${minecraft_version})
-		minecraft_uuid=echo '${temp}' | rev | cut -d ',' -f 1 | rev | cut -d ']' -f 1
-		minecraft_url="https://papermc.io/api/v2/projects/paper/versions/${minecraft_version}/builds/${minecraft_uuid}/downloads/paper-${minecraft_version}-{minecraft_uuid}.jar"
+		minecraft_uuid=`echo $temp | rev | cut -d ',' -f 1 | rev | cut -d ']' -f 1`
+		minecraft_url="https://papermc.io/api/v2/projects/paper/versions/${minecraft_version}/builds/${minecraft_uuid}/downloads/paper-${minecraft_version}-${minecraft_uuid}.jar"
 	else
 		minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
 	fi
@@ -122,7 +122,7 @@ fi
   #minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 #fi
 
-unset temp
+unset temp # Cleanup
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
