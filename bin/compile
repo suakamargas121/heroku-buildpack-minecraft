@@ -66,8 +66,8 @@ server=${SERVER:-"paper"}
 server=`echo $server | tr '[:upper:]' '[:lower:]'`
 
 # PURPUR SERVER
-if [${server} = "purpur"]; then
-	if [${minecraft_version} = "latest"]; then
+if [ "$server" = "purpur" ]; then
+	if [ "$minecraft_version" = "latest" ]; then
 		echo "Latest JAR Downloader Not Implemented for Purpur Server"
 		exit 1
 	else
@@ -80,8 +80,8 @@ fi
 
 # SPIGOT SERVER
 # Spigot works as of 1.17.1! Recommended
-if [${server} = "spigot"]; then
-	if [${minecraft_version} = "latest"]; then
+if [ "$server" = "spigot" ]; then
+	if [ "$minecraft_version" = "latest" ]; then
 		echo "Latest JAR Downloader Not Implemented for Spigot Server"
 		exit 1
 	else
@@ -91,8 +91,8 @@ fi
 
 # PAPER SERVER
 # Paper only works up to 1.16.5, and uses more memory compared to the other Minecraft Servers. Requires Server View Distance of 6 or Below. Not recommended, for now.
-if [${server} = "paper"]; then
-	if [${minecraft_version} = "latest"]; then
+if [ "$server" = "paper" ]; then
+	if [ "$minecraft_version" = "latest" ]; then
 		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/)
 		minecraft_version=echo '${temp}' | rev | cut -d ',' -f 1 | rev | cut -d '"' -f 2 | sed -n '2p'
 		temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/versions/${minecraft_version})
