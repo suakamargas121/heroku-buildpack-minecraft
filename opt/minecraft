@@ -66,6 +66,79 @@ trap "kill -9 $ngrok_pid $main_pid $sync_pid $tail_pid; exit" SIGKILL
 
 #eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${webport}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
 
+# DNS Update Section
+if [ -n "$DYNU_CLIENT_ID" ]; then
+	sleep 10 # Wait 10 Seconds First for Server to Start
+
+	# Grab Full Ngrok Address
+	ngrok_address=`cat ngrok.log`
+	ngrok_address=${ngrok_address#*tcp://}
+	ngrok_address=${ngrok_address%% *}
+
+	# Grab Ngrok IP and Port
+	ngrok_ip=`echo $ngrok_address | cut -d ':' -f 1`
+	ngrok_ip=`dig +short ${ngrok_ip}`
+	ngrok_port=`echo $ngrok_address | cut -d ':' -f 2`
+
+	# Cleanup
+	unset ngrok_address
+
+	# Retrieve Dynu Keys
+	dynu_client_id=${DYNU_CLIENT_ID}
+	dynu_secret=${DYNU_SECRET}
+	dynu_full="${dynu_client_id}:${dynu_secret}"
+
+	# Cleanup
+	unset dynu_client_id
+	unset dynu_secret
+
+	# Retrieve Dynu Token
+	dynu_token=`curl --silent -X GET https://api.dynu.com/v2/oauth2/token -H "accept: application/json" -u "${dynu_full}"`
+	dynu_token=`echo $dynu_token | cut -d \" -f 4`
+
+	# Cleanup
+	unset dynu_full
+
+	# Get Domain Name + ID
+	domain=`curl --silent -X GET "https://api.dynu.com/v2/dns" -H "accept: application/json" -H "Authorization: Bearer ${dynu_token}"`
+	domain_id=`echo $domain | cut -d \" -f 7`
+	domain_id=${domain_id:1:-1}
+	domain=`echo $domain | cut -d \" -f 10`
+
+	# Get DNS Records of Domain ID
+	dnses=`curl --silent -X GET "https://api.dynu.com/v2/dns/${domain_id}/record" -H "accept: application/json" -H "Authorization: Bearer ${dynu_token}"`
+	dnses=${dnses#*id}
+	dnses=${dnses#*id}
+	dnses_ip=${dnses%%,*}
+	dnses_ip=${dnses_ip:2}
+	dnses=${dnses#*id}
+	dnses_port=${dnses%%,*}
+	dnses_port=${dnses_port:2}
+	
+	# Cleanup
+	unset dnses
+	
+	# Update DNS for Ngrok IP
+	curl --silent -X POST "https://api.dynu.com/v2/dns/${domain_id}/record/${dnses_ip}" -H "accept: application/json" -H "Authorization: Bearer ${dynu_token}" -H "Content-Type: application/json" -d "{\"nodeName\":\"mcngrok\",\"recordType\":\"A\",\"ttl\":120,\"state\":true,\"group\":\"\",\"ipv4Address\":\"${ngrok_ip}\"}"
+	
+	# Update DNS for Ngrok PORT
+	curl --silent -X POST "https://api.dynu.com/v2/dns/${domain_id}/record/${dnses_port}" -H "accept: application/json" -H "Authorization: Bearer ${dynu_token}" -H "Content-Type: application/json" -d "{\"nodeName\":\"_minecraft._tcp\",\"recordType\":\"SRV\",\"ttl\":120,\"state\":true,\"group\":\"\",\"host\":\"mcngrok.${domain}\",\"priority\":10,\"weight\":5,\"port\":${ngrok_port}}"
+	
+	# Cleanup
+	unset dynu_token
+	unset domain_id
+	unset dnses_ip
+	unset dnses_port
+	unset ngrok_ip
+	unset ngrok_port
+	
+	echo -e "Finished DNS Update! \nConnect to your Server Now at '$domain'"
+	
+	# Cleanup
+	unset domain
+fi
+# DNS Update Section
+
 # Application Exits unless we Loop Forever here
 while :; do
     sleep 10
