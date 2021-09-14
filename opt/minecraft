@@ -27,6 +27,11 @@ if [ "$READ_ONLY" != "true" ]; then
   sync_pid=$!
 fi
 
+# Create Folders
+mkdir -p world
+mkdir -p plugins
+mkdir -p mods
+
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties
 echo "server-ip=0.0.0.0" >> /app/server.properties
