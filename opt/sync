@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+perform_save=${SYNC_SAVE:-"true"}
+perform_load=${SYNC_LOAD:-"true"}
+
 echo "Syncing..."
 
 # Amazon S3 Sync
@@ -10,12 +13,16 @@ access_key = ${AWS_ACCESS_KEY}
 secret_key = ${AWS_SECRET_KEY}
 EOF
   if [ -d world ]; then
-    s3cmd sync world/ s3://${AWS_BUCKET}/world/
+	if [ "$perform_save" = "true" ]; then
+		s3cmd sync world/ s3://${AWS_BUCKET}/world/
+	fi
   else
-    mkdir -p world
-    cd world
-    s3cmd get --recursive s3://${AWS_BUCKET}/world/
-    cd ..
+	if [ "$perform_load" = "true" ]; then
+		mkdir -p world
+		cd world
+		s3cmd get --recursive s3://${AWS_BUCKET}/world/
+		cd ..
+	fi
   fi
   rm .s3cfg
   screen -S minecraft -p 0 -X stuff "say §aWorld Saved^M"
@@ -30,15 +37,19 @@ OAUTH_APP_SECRET=${DROPBOX_APP_SECRET}
 OAUTH_REFRESH_TOKEN=${DROPBOX_ACCESS_TOKEN}
 EOF
   if [ -d world ]; then
-    tar -czvf backup.tar.gz world world_nether world_the_end plugins
-    bin/dropbox_uploader.sh upload backup.tar.gz /
-    rm backup.tar.gz
+	if [ "$perform_save" = "true" ]; then
+		tar -czvf backup.tar.gz world world_nether world_the_end plugins mods
+		bin/dropbox_uploader.sh upload backup.tar.gz /
+		rm backup.tar.gz
+	fi
   else
-    if bin/dropbox_uploader.sh download /backup.tar.gz
-    then
-      tar -xzvf backup.tar.gz
-      rm backup.tar.gz
-    fi
+	if [ "$perform_load" = "true" ]; then
+		if bin/dropbox_uploader.sh download /backup.tar.gz
+		then
+		  tar -xzvf backup.tar.gz
+		  rm backup.tar.gz
+		fi
+	fi
   fi
   rm .dropbox_uploader
   screen -S minecraft -p 0 -X stuff "say §aWorld Saved^M"
