@@ -73,13 +73,13 @@ if [ "$server" != "none" ]; then
 	# Purpur works as of 1.17.1 with 500m Memory
 	if [ "$server" = "purpur" ]; then
 		if [ "$minecraft_version" = "latest" ]; then
-			temp=$(wget -qO- https://api.pl3x.net/v2/purpur/)
+			temp=$(wget -qO- https://api.purpurmc.org/v2/purpur/)
 			minecraft_version=`echo $temp | cut -d ',' -f 2 | cut -d '"' -f 4`
-			temp=$(wget -qO- https://api.pl3x.net/v2/purpur/${minecraft_version}/)
+			temp=$(wget -qO- https://api.purpurmc.org/v2/purpur/${minecraft_version}/)
 			minecraft_uuid=`echo $temp | cut -d ',' -f 4 | cut -d '"' -f 4`
-			minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/${minecraft_uuid}/download"
+			minecraft_url="https://api.purpurmc.org/v2/purpur/${minecraft_version}/${minecraft_uuid}/download"
 		else
-			minecraft_url="https://api.pl3x.net/v2/purpur/${minecraft_version}/latest/download"
+			minecraft_url="https://api.purpurmc.org/v2/purpur/${minecraft_version}/latest/download"
 		fi
 	fi
 
