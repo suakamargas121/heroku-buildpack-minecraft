@@ -3,6 +3,8 @@
 This is a [Heroku Buildpack](https://devcenter.heroku.com/articles/buildpacks)
 for running a Minecraft Server in a [dyno](https://devcenter.heroku.com/articles/dynos).
 
+For the Main Repository, see [Here.](https://github.com/Epicfisher/heroku-minecraft-server)
+
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## Setup
