@@ -8,6 +8,81 @@ webport=${1:-${PORT:-8080}}
 
 #mc_port=${webport}
 
+# Minecraft Version to Run
+minecraft_version=${MINECRAFT_VERSION:-"latest"}
+minecraft_uuid="Unknown UUID"
+server=${SERVER:-"purpur"}
+server=`echo $server | tr '[:upper:]' '[:lower:]'`
+
+if [ "$server" != "none" ]; then
+	echo -n "-----> Searching for Minecraft ${server} ${minecraft_version}... "
+
+	# PURPUR SERVER
+	# Purpur works as of 1.17.1 with 500m Memory
+	if [ "$server" = "purpur" ]; then
+		if [ "$minecraft_version" = "latest" ]; then
+			temp=$(wget -qO- https://api.purpurmc.org/v2/purpur/)
+			minecraft_version=`echo $temp | rev | cut -d '"' -f 2 | rev`
+			temp=$(wget -qO- https://api.purpurmc.org/v2/purpur/${minecraft_version}/)
+			minecraft_uuid=`echo $temp | rev | cut -d '"' -f 10 | rev`
+			minecraft_url="https://api.purpurmc.org/v2/purpur/${minecraft_version}/${minecraft_uuid}/download"
+		else
+			minecraft_url="https://api.purpurmc.org/v2/purpur/${minecraft_version}/latest/download"
+		fi
+	fi
+
+	# TUINITY SERVER
+	# Tuinity works as of 1.17.1 with 500m Memory
+	if [ "$server" = "tuinity" ]; then
+		if [ "$minecraft_version" = "latest" ]; then
+			#minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+			echo "Latest JAR Downloader Not Implemented for Tuinity Server"
+			exit 1
+		else
+			minecraft_version=`echo $minecraft_version | rev | cut -d '.' -f 2-3 | rev`
+			minecraft_url="https://ci.codemc.io/job/Spottedleaf/job/Tuinity-${minecraft_version}/lastSuccessfulBuild/artifact/tuinity-paperclip.jar"
+		fi
+	fi
+
+	# PAPER SERVER
+	# Paper works as of 1.17.1 with 500m Memory
+	if [ "$server" = "paper" ]; then
+		if [ "$minecraft_version" = "latest" ]; then
+			temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/)
+			minecraft_version=`echo $temp | rev | cut -d ',' -f 1 | rev | cut -d '"' -f 2`
+			temp=$(wget -qO- https://papermc.io/api/v2/projects/paper/versions/${minecraft_version})
+			minecraft_uuid=`echo $temp | rev | cut -d ',' -f 1 | rev | cut -d ']' -f 1`
+			minecraft_url="https://papermc.io/api/v2/projects/paper/versions/${minecraft_version}/builds/${minecraft_uuid}/downloads/paper-${minecraft_version}-${minecraft_uuid}.jar"
+		else
+			minecraft_url="https://papermc.io/api/v1/paper/${minecraft_version}/latest/download"
+		fi
+	fi
+
+	# SPIGOT SERVER
+	# Spigot works as of 1.17.1 with 448m Memory
+	if [ "$server" = "spigot" ]; then
+		if [ "$minecraft_version" = "latest" ]; then
+			echo "Latest JAR Downloader Not Implemented for Spigot Server"
+			exit 1
+		else
+			minecraft_url="https://download.getbukkit.org/spigot/spigot-${minecraft_version}.jar"
+		fi
+	fi
+	
+	# Cleanup
+	unset temp
+	echo "done"
+
+	echo -n "-----> Downloading Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
+	curl -o minecraft.jar -s -L $minecraft_url
+	echo "done"
+	echo -n "-----> Installing Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
+	mv minecraft.jar $BUILD_DIR/minecraft.jar
+	echo "done"
+else
+	echo "Server set to None. Server won't be Downloaded"
+fi
+
 if [ -z "$NGROK_API_TOKEN" ]; then
   echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
   exit 1
