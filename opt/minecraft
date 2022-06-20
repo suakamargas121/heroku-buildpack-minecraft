@@ -76,9 +76,9 @@ if [ "$server" != "none" ]; then
 	echo -n "-----> Downloading Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
 	curl -o minecraft.jar -s -L $minecraft_url
 	echo "done"
-	echo -n "-----> Installing Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
-	mv minecraft.jar $BUILD_DIR/minecraft.jar
-	echo "done"
+	#echo -n "-----> Installing Minecraft ${server} ${minecraft_version} ${minecraft_uuid}... "
+	#mv minecraft.jar $BUILD_DIR/minecraft.jar
+	#echo "done"
 else
 	echo "Server set to None. Server won't be Downloaded"
 fi
